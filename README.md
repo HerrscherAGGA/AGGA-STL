@@ -34,14 +34,11 @@ GITHUB_USER = "HerrscherAGGA"
 REPO_NAME = "AGGA-STL"
 BRANCH = "main"
 
-# Lista de herramientas a instalar
 TOOLS = [
     {"remote": "Scripts/herrscher_shield.py", "local": "herrscher_shield.py"},
     {"remote": "Scripts/agga_optimizer.py", "local": "agga_optimizer.py"}
 ]
 
-# Detección de ruta (Soporta A1111, Forge y Reforge)
-# --- SMART PATH DETECTION ---
 possible_paths = [
     Path('/content/stable-diffusion-webui'),                     # Standard A1111
     Path('/content/webui_forge_cu121_torch231/stable-diffusion-webui'), # Forge standard
@@ -49,6 +46,7 @@ possible_paths = [
     Path('/content/gdrive/MyDrive/sd/stable-diffusion-webui'),   # Drive installations
     Path('/content/reforge/stable-diffusion-webui')              # Reforge specific
 ]
+
 WEBUI_PATH = next((p for p in possible_paths if p.exists()), None)
 
 def install_suite():
@@ -62,7 +60,8 @@ def install_suite():
     print(f"🚀 Installing Herrscher Suite into: {TARGET_DIR}")
 
     for tool in TOOLS:
-        url = f"[https://raw.githubusercontent.com/](https://raw.githubusercontent.com/){GITHUB_USER}/{REPO_NAME}/{BRANCH}/{tool['remote']}"
+        url = f"https://raw.githubusercontent.com/{GITHUB_USER}/{REPO_NAME}/{BRANCH}/{tool['remote']}"
+        
         dest = TARGET_DIR / tool['local']
         
         try:
@@ -71,10 +70,13 @@ def install_suite():
                 dest.write_bytes(r.content)
                 print(f"   ✅ Installed: {tool['local']}")
             else:
-                print(f"   ❌ Failed to download: {tool['local']} (404)")
+                print(f"   ❌ Failed to download: {tool['local']} (Status: {r.status_code})")
+                print(f"      URL intentada: {url}") 
         except Exception as e:
             print(f"   ❌ Error: {e}")
 
-    print("\n✨ SUITE INSTALLED. Restart WebUI.")
+    print("\n✨ SUITE INSTALLED. Restart WebUI if running.")
 
-install_suite()
+if __name__ == "__main__":
+    install_suite()
+```
