@@ -41,11 +41,13 @@ TOOLS = [
 ]
 
 # Detección de ruta (Soporta A1111, Forge y Reforge)
+# --- SMART PATH DETECTION ---
 possible_paths = [
-    Path('/content/stable-diffusion-webui'),
-    Path('/content/webui_forge_cu121_torch231/stable-diffusion-webui'),
-    Path('/content/reforge/stable-diffusion-webui'),
-    Path('/workspace/stable-diffusion-webui')
+    Path('/content/stable-diffusion-webui'),                     # Standard A1111
+    Path('/content/webui_forge_cu121_torch231/stable-diffusion-webui'), # Forge standard
+    Path('/content/A1111'),                                      # Some notebooks
+    Path('/content/gdrive/MyDrive/sd/stable-diffusion-webui'),   # Drive installations
+    Path('/content/reforge/stable-diffusion-webui')              # Reforge specific
 ]
 WEBUI_PATH = next((p for p in possible_paths if p.exists()), None)
 
